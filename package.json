@@ -1,7 +1,7 @@
 {
-  "name": "eventosao-api",
+  "name": "nest-auth-and-swagger",
   "version": "1.0.0",
-  "description": "Igor Teixeira",
+  "description": "Simple auth with jwt and swagger",
   "author": "Igor Teixeira",
   "private": true,
   "license": "MIT",
