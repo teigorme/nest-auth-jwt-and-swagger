@@ -14,7 +14,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ZodValidationPipe());
   app.setGlobalPrefix(globalPrefix);
   const config = new DocumentBuilder()
-    .setTitle('Eventos.ao API')
+    .setTitle('Nest API')
     .setDescription('Documentação gerada automaticamente pela API')
     .setVersion('1.0.0')
     .addBearerAuth()
