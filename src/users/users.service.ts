@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -19,23 +23,43 @@ export class UsersService {
         ...createUserDto,
         password: await bcrypt.hash(createUserDto.password, saltOrRounds),
       },
-      omit: { password: true, createdAt: true, updatedAt: true },
+      omit: { password: true },
     });
   }
 
-  findAll() {
-    return `This action returns all users`;
+
+  async findOne(id: string): Promise<User> {
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+      omit: { password: true },
+    });
+    if (!user) throw new NotFoundException();
+    return user;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+      omit: { password: true },
+    });
+    if (!user) throw new NotFoundException();
+    return await this.prisma.user.update({
+      where: { id },
+      data: { ...updateUserDto },
+      omit: { password: true },
+    });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: string): Promise<User> {
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+      omit: { password: true },
+    });
+    if (!user) throw new NotFoundException();
+    return await this.prisma.user.update({
+      where: { id },
+      data: { isBlock: true },
+      omit: { password: true },
+    });
   }
 }

@@ -4,7 +4,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
 import { UsersService } from 'src/users/users.service';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { User } from 'src/users/entities/user.entity';
@@ -14,6 +13,7 @@ import { Auth } from './entities/auth.entity';
 import { JwtService } from '@nestjs/jwt';
 import { Payload } from 'src/types/payload';
 import { Sub } from 'src/types/sub';
+import { UpdateUserDto } from 'src/users/dto/update-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -84,11 +84,11 @@ export class AuthService {
     }
   }
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
+  async update(id: string, updateAuthDto: UpdateUserDto): Promise<User> {
+    return await this.usersService.update(id, updateAuthDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+  async remove(id: string): Promise<User> {
+    return await this.usersService.remove(id);
   }
 }

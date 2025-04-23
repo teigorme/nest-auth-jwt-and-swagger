@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { User } from 'src/users/entities/user.entity';
 import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
@@ -19,6 +18,7 @@ import { HttpError } from 'src/types/http-error';
 import { Auth } from './entities/auth.entity';
 import { Request, Response } from 'express';
 import { Public } from './auth.decorator';
+import { UpdateUserDto } from 'src/users/dto/update-user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -90,13 +90,24 @@ export class AuthController {
     return tokens;
   }
 
+
+
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
+  @ApiBearerAuth()
+  @ApiResponse({ status: 200, type: User })
+  @ApiResponse({ status: 404, type: HttpError })
+  async update(
+    @Param('id') id: string,
+    @Body() updateAuthDto: UpdateUserDto,
+  ): Promise<User> {
+    return await this.authService.update(id, updateAuthDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
+  @ApiBearerAuth()
+  @ApiResponse({ status: 200, type: User })
+  @ApiResponse({ status: 404, type: HttpError })
+  async remove(@Param('id') id: string): Promise<User> {
+    return await this.authService.remove(id);
   }
 }

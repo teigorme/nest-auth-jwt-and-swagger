@@ -25,6 +25,7 @@ model User {
   email     String   @unique
   password  String
   role      Roles    @default(USER)
+  isBlock   Boolean  @default(false) @map("is_block")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 }

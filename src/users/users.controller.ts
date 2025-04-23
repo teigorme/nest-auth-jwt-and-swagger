@@ -26,23 +26,30 @@ export class UsersController {
     return await this.usersService.create(createUserDto);
   }
 
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
-  }
-
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  @ApiBearerAuth()
+  @ApiResponse({ status: 200, type: User })
+  @ApiResponse({ status: 404, type: HttpError })
+  async findOne(@Param('id') id: string): Promise<User> {
+    return await this.usersService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  @ApiBearerAuth()
+  @ApiResponse({ status: 200, type: User })
+  @ApiResponse({ status: 404, type: HttpError })
+  async update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ): Promise<User> {
+    return await this.usersService.update(id, updateUserDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  @ApiBearerAuth()
+  @ApiResponse({ status: 200, type: User })
+  @ApiResponse({ status: 404, type: HttpError })
+  async remove(@Param('id') id: string): Promise<User> {
+    return await this.usersService.remove(id);
   }
 }
