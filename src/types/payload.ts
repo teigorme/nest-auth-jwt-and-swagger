@@ -1,9 +1,8 @@
-import { Roles } from "@prisma/client";
+import { Roles } from '@prisma/client';
 
-export type Payload = {
+export class Payload {
   sub: string;
   name: string;
   email: string;
   role: Roles;
-  
-};
+}
