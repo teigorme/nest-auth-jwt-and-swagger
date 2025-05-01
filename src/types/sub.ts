@@ -1,3 +1,3 @@
-export type Sub = {
+export class Sub {
   sub: string;
-};
+}
