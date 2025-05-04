@@ -70,7 +70,7 @@ export class AuthController {
       request.cookies?.refresh_token,
     );
 
-    response.cookie('token', tokens.access_token, {
+    response.cookie('access_token', tokens.access_token, {
       httpOnly: false,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
