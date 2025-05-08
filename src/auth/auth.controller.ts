@@ -41,7 +41,7 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response,
   ): Promise<Auth> {
     const tokens = await this.authService.validation(createAuthDto);
-    response.cookie('token', tokens.access_token, {
+    response.cookie('access_token', tokens.access_token, {
       httpOnly: false,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
