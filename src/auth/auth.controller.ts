@@ -41,17 +41,17 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response,
   ): Promise<Auth> {
     const tokens = await this.authService.validation(createAuthDto);
-    response.cookie('access_token', tokens.access_token, {
-      httpOnly: false,
+    response.cookie('accessToken', tokens.access_token, {
+      httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      sameSite: 'none',
       path: '/',
     });
 
-    response.cookie('refresh_token', tokens.refresh_token, {
+    response.cookie('refreshToken', tokens.refresh_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'none',
       path: '/api/refresh-token',
     });
 
@@ -70,19 +70,20 @@ export class AuthController {
       request.cookies?.refresh_token,
     );
 
-    response.cookie('access_token', tokens.access_token, {
-      httpOnly: false,
+     response.cookie('accessToken', tokens.access_token, {
+      httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      sameSite: 'none',
       path: '/',
     });
 
-    response.cookie('refresh_token', tokens.refresh_token, {
+    response.cookie('refreshToken', tokens.refresh_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'none',
       path: '/api/refresh-token',
     });
+    
     return tokens;
   }
 
