@@ -46,7 +46,7 @@ export class AuthService {
     return {
       access_token: await this.jwtService.signAsync(payload),
       refresh_token: await this.jwtService.signAsync(prop, {
-        expiresIn: '15d',
+        expiresIn: '7d',
         secret: process.env.REFRESH_TOKEN,
       }),
     };
@@ -75,7 +75,7 @@ export class AuthService {
       return {
         access_token: await this.jwtService.signAsync(payload),
         refresh_token: await this.jwtService.signAsync(prop, {
-          expiresIn: '15d',
+          expiresIn: '7d',
           secret: process.env.REFRESH_TOKEN,
         }),
       };
