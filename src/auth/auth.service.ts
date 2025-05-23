@@ -44,8 +44,8 @@ export class AuthService {
     const prop = { sub: user.id } as Sub;
 
     return {
-      access_token: await this.jwtService.signAsync(payload),
-      refresh_token: await this.jwtService.signAsync(prop, {
+      accessToken: await this.jwtService.signAsync(payload),
+      refreshToken: await this.jwtService.signAsync(prop, {
         expiresIn: '7d',
         secret: process.env.REFRESH_TOKEN,
       }),
@@ -73,8 +73,8 @@ export class AuthService {
       const prop = { sub: user.id } as Sub;
 
       return {
-        access_token: await this.jwtService.signAsync(payload),
-        refresh_token: await this.jwtService.signAsync(prop, {
+        accessToken: await this.jwtService.signAsync(payload),
+        refreshToken: await this.jwtService.signAsync(prop, {
           expiresIn: '7d',
           secret: process.env.REFRESH_TOKEN,
         }),
