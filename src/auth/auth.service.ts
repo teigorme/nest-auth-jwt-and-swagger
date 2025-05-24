@@ -1,7 +1,6 @@
 import {
   BadRequestException,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UsersService } from 'src/users/users.service';
@@ -80,7 +79,7 @@ export class AuthService {
         }),
       };
     } catch (e) {
-      throw new UnauthorizedException();
+      throw new BadRequestException();
     }
   }
 
