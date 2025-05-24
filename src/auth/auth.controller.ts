@@ -1,6 +1,5 @@
 import {
   Controller,
-  Get,
   Post,
   Body,
   Patch,
@@ -41,17 +40,18 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response,
   ): Promise<Auth> {
     const tokens = await this.authService.validation(createAuthDto);
+
     response.cookie('accessToken', tokens.accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'none',
+      sameSite: 'lax',
       path: '/',
     });
 
     response.cookie('refreshToken', tokens.refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'none',
+      sameSite: 'strict',
       path: '/api/auth/refresh-token',
     });
 
@@ -59,7 +59,7 @@ export class AuthController {
   }
 
   @Post('refresh-token')
-  @ApiBearerAuth()
+  @Public()
   @ApiResponse({ status: 201, type: Auth })
   @ApiResponse({ status: 401, type: HttpError })
   async refreshToken(
@@ -70,24 +70,22 @@ export class AuthController {
       request.cookies?.refreshToken,
     );
 
-     response.cookie('accessToken', tokens.access_token, {
+    response.cookie('accessToken', tokens.accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'none',
+      sameSite: 'lax',
       path: '/',
     });
 
     response.cookie('refreshToken', tokens.refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'none',
+      sameSite: 'strict',
       path: '/api/auth/refresh-token',
     });
-    
+
     return tokens;
   }
-
-
 
   @Patch(':id')
   @ApiBearerAuth()

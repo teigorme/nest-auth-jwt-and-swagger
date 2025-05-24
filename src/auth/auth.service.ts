@@ -32,7 +32,7 @@ export class AuthService {
     });
 
     if (!user || !(await bcrypt.compare(createAuthDto.password, user.password)))
-      throw new UnauthorizedException();
+      throw new BadRequestException();
 
     const payload = {
       sub: user.id,
